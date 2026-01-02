@@ -99,10 +99,7 @@ export const ShopContextProvider = (props) => {
        products, 
        currency, 
        delivery_fee, 
-       search, 
-       setSearch, 
-       showSearch, 
-       setShowSearch, 
+       
        cartItems, 
        setCartItems, 
        addToCart, 
@@ -110,6 +107,10 @@ export const ShopContextProvider = (props) => {
        updateQuantity, 
        getCartAmount, 
        navigate,
+       search,
+       setSearch,
+       showSearch,
+       setShowSearch,
        visible,
        setVisible
     };

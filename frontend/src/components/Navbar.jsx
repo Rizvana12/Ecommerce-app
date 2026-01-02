@@ -4,8 +4,11 @@ import { Link, NavLink } from 'react-router-dom'
 import { useState } from 'react'
 import { ShopContext } from '../context/ShopContext.jsx'
 import Menubar from './menubar'
+import {AuthContext} from '../context/AuthContext.jsx'
+
 
 const Navbar = () => {
+   const {user, logout} = useContext(AuthContext)
     
     const {setShowSearch,getCartCount, setVisible} = useContext(ShopContext);
   return (
@@ -32,16 +35,27 @@ const Navbar = () => {
         </ul>
 
         <div className='flex items-center gap-6'>
+            
             <img onClick={()=>setShowSearch(true)} src={assets.search_icon} className='w-5 cursor-pointer' alt="" />
             <div className='group relative'>
-                <Link to='/login'><img src={assets.profile_icon} className='w-5 cursor-pointer' alt="" /></Link>
-                <div className='group-hover:block hidden absolute dropdown-menu right-0 pt-4'>
-                    <div className='flex flex-col gap-2 w-36 py-3 px-5 bg-slate-100 text-gray-500'>
-                        <p className='cursor-pointer hover:text-black'>My Profile</p>
-                        <p className='cursor-pointer hover:text-black'>Orders</p>
-                        <p className='cursor-pointer hover:text-black'>LogOut</p>
-                    </div>
+                {user ? (
+            // Show user's profile image and dropdown if logged in
+            <>
+              <img src={user.profileImage || assets.profile_icon} className='w-5 cursor-pointer' alt="User Profile" />
+              <div className='group-hover:block hidden absolute dropdown-menu right-0 pt-4'>
+                <div className='flex flex-col gap-2 w-36 py-3 px-5 bg-slate-100 text-gray-500'>
+                  <p className='cursor-pointer hover:text-black'>My Profile</p>
+                  <Link to='/myorders'><p className='cursor-pointer hover:text-black'>My Orders</p></Link>
+                  <p className='cursor-pointer hover:text-black' onClick={logout}>Logout</p> {/* Logout option */}
                 </div>
+              </div>
+            </>
+          ) : (
+            // Show the login link if not logged in
+            <Link to='/login'>
+              <img src={assets.profile_icon} className='w-5 cursor-pointer' alt="Login" />
+            </Link>
+          )}
             </div>
             <Link to='/cart' className='relative'>
                 <img src={assets.cart_icon} className='w-5 min-w-5' alt="" />
